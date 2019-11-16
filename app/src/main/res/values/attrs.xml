@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="ExpandableLayout_MaxHeight" format="reference|dimension" />
+        <attr name="ExpandableLayout_MinHeight" format="reference|dimension" />
+        <attr name="ExpandableLayout_Drag_Enable" format="reference|boolean" />
+        <attr name="ExpandableLayout_ExpandWay">
+            <enum name="top" value="0" />
+            <enum name="down" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>
