@@ -84,6 +84,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
         valueAnimator = new ValueAnimator();
         valueAnimator.addUpdateListener(this);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
+        maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
 
         setClickable(true);
         setFocusable(true);
@@ -121,7 +122,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     public void onGlobalLayout() {
         getViewTreeObserver().removeOnGlobalLayoutListener(this);
         minHeight = minHeight > 0 ? minHeight : getHeight();
-        maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
+//        maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
         currentHeight = minHeight;
         phoneMaxY = getPhoneHeight() + minHeight;
 
