@@ -81,7 +81,8 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     //-------------
 
     private void init() {
-        params = getLayoutParams();
+        params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,minHeight);
+        setLayoutParams(params);
         valueAnimator = new ValueAnimator();
         valueAnimator.addUpdateListener(this);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
@@ -121,6 +122,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     @Override
     public void onGlobalLayout() {
         getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        params = getLayoutParams();
         minHeight = minHeight > 0 ? minHeight : getHeight();
         maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
         currentHeight = minHeight;
