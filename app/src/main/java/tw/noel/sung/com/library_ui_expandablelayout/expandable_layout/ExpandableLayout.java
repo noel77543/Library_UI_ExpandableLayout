@@ -167,11 +167,11 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
 
                     //由下往上滑動
                     if (currentHeight > oldHeight) {
-                        expand();
+                        expand(true);
                     }
                     //由上往下滑動
                     else {
-                        collapse();
+                        collapse(true);
                     }
                     break;
             }
@@ -186,8 +186,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     @Override
     public void onAnimationUpdate(ValueAnimator valueAnimator) {
         currentHeight = (int) ((float) valueAnimator.getAnimatedValue());
-        params.height = currentHeight;
-        setLayoutParams(params);
+        updateHeight();
 
         if (onExpandStateChangeListener != null) {
             if (currentHeight == minHeight) {
@@ -197,15 +196,28 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
             }
         }
     }
+    //---------------
 
+    /***
+     *  更新高度
+     */
+    private void updateHeight(){
+        params.height = currentHeight;
+        setLayoutParams(params);
+    }
     //-----------------
 
     /***
      *  展開
      */
-    public void expand() {
-        valueAnimator.setFloatValues(currentHeight, maxHeight);
-        valueAnimator.start();
+    public void expand(boolean isAnimate) {
+        if(isAnimate){
+            valueAnimator.setFloatValues(currentHeight, maxHeight);
+            valueAnimator.start();
+        }else {
+            currentHeight = maxHeight;
+            updateHeight();
+        }
     }
 
     //---------------
@@ -213,9 +225,14 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     /***
      * 收合
      */
-    public void collapse() {
-        valueAnimator.setFloatValues(currentHeight, minHeight);
-        valueAnimator.start();
+    public void collapse(boolean isAnimate) {
+        if(isAnimate){
+            valueAnimator.setFloatValues(currentHeight, minHeight);
+            valueAnimator.start();
+        }else {
+            currentHeight = minHeight;
+            updateHeight();
+        }
     }
 
     //-----------------
