@@ -49,7 +49,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     private int oldHeight;
     private int currentHeight;
     private OnExpandStateChangeListener onExpandStateChangeListener;
-//    private ViewGroup.LayoutParams params;
+    //    private ViewGroup.LayoutParams params;
     private int phoneMaxY;
 
     public ExpandableLayout(Context context) {
@@ -94,10 +94,10 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
 
     //------------------
 
-    public void setDragEnable(boolean dragEnable){
-        if(dragEnable){
+    public void setDragEnable(boolean dragEnable) {
+        if (dragEnable) {
             setOnTouchListener(this);
-        }else {
+        } else {
             setOnTouchListener(null);
         }
     }
@@ -122,21 +122,48 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     public void onGlobalLayout() {
         getViewTreeObserver().removeOnGlobalLayoutListener(this);
         minHeight = minHeight > 0 ? minHeight : getHeight();
-//        maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
         currentHeight = minHeight;
         phoneMaxY = getPhoneHeight() + minHeight;
-
     }
 
 
     //------------------
 
     /***
-     *   當為水平 maxHeight 表示最大寬度 ,為垂直則表示最大高度
+     *   設置最大高度
      * @param maxHeight
      */
     public void setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
+    }
+
+    //-------------
+
+    /***
+     * 取得最大高度
+     * @return
+     */
+    public int getMaxHeight() {
+        return maxHeight;
+    }
+    //-------------
+
+    /***
+     * 取得最小高度
+     * @return
+     */
+    public int getMinHeight() {
+        return minHeight;
+    }
+    //-------------
+
+    /**
+     * 設置 最小高度
+     *
+     * @param minHeight
+     */
+    public void setMinHeight(int minHeight) {
+        this.minHeight = minHeight;
     }
 
     //--------------------
@@ -144,7 +171,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (minHeight > 0 && maxHeight > minHeight) {
-            ViewGroup.LayoutParams params =getLayoutParams();
+            ViewGroup.LayoutParams params = getLayoutParams();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
 
@@ -155,9 +182,9 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int currentSize;
-                    if(expandWay == TOP){
+                    if (expandWay == TOP) {
                         currentSize = phoneMaxY - (int) (event.getRawY());
-                    }else {
+                    } else {
                         currentSize = (int) (event.getRawY());
                     }
                     currentSize = currentSize > maxHeight ? maxHeight : currentSize < minHeight ? minHeight : currentSize;
@@ -203,8 +230,8 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     /***
      *  更新高度
      */
-    private void updateHeight(){
-        ViewGroup.LayoutParams params =getLayoutParams();
+    private void updateHeight() {
+        ViewGroup.LayoutParams params = getLayoutParams();
         params.height = currentHeight;
         setLayoutParams(params);
     }
@@ -214,10 +241,10 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
      *  展開
      */
     public void expand(boolean isAnimate) {
-        if(isAnimate){
+        if (isAnimate) {
             valueAnimator.setFloatValues(currentHeight, maxHeight);
             valueAnimator.start();
-        }else {
+        } else {
             currentHeight = maxHeight;
             updateHeight();
         }
@@ -229,10 +256,10 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
      * 收合
      */
     public void collapse(boolean isAnimate) {
-        if(isAnimate){
+        if (isAnimate) {
             valueAnimator.setFloatValues(currentHeight, minHeight);
             valueAnimator.start();
-        }else {
+        } else {
             currentHeight = minHeight;
             updateHeight();
         }
