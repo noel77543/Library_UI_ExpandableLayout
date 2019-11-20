@@ -49,7 +49,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     private int oldHeight;
     private int currentHeight;
     private OnExpandStateChangeListener onExpandStateChangeListener;
-    private ViewGroup.LayoutParams params;
+//    private ViewGroup.LayoutParams params;
     private int phoneMaxY;
 
     public ExpandableLayout(Context context) {
@@ -81,8 +81,6 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     //-------------
 
     private void init() {
-        params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,minHeight);
-        setLayoutParams(params);
         valueAnimator = new ValueAnimator();
         valueAnimator.addUpdateListener(this);
         valueAnimator.setInterpolator(new AccelerateInterpolator());
@@ -122,7 +120,6 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     @Override
     public void onGlobalLayout() {
         getViewTreeObserver().removeOnGlobalLayoutListener(this);
-        params = getLayoutParams();
         minHeight = minHeight > 0 ? minHeight : getHeight();
         maxHeight = maxHeight > 0 ? maxHeight : context.getResources().getDisplayMetrics().heightPixels;
         currentHeight = minHeight;
@@ -146,8 +143,10 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         if (minHeight > 0 && maxHeight > minHeight) {
+            ViewGroup.LayoutParams params =getLayoutParams();
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+
                     if (valueAnimator.isRunning()) {
                         valueAnimator.cancel();
                     }
@@ -204,6 +203,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
      *  更新高度
      */
     private void updateHeight(){
+        ViewGroup.LayoutParams params =getLayoutParams();
         params.height = currentHeight;
         setLayoutParams(params);
     }
