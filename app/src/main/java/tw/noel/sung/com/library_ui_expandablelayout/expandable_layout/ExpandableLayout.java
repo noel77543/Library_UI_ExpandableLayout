@@ -49,8 +49,10 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     private int oldHeight;
     private int currentHeight;
     private OnExpandStateChangeListener onExpandStateChangeListener;
-    //    private ViewGroup.LayoutParams params;
+
     private int phoneMaxY;
+    private int initWidth = -1;
+    private int initHeight = -1;
 
     public ExpandableLayout(Context context) {
         this(context, null);
@@ -127,6 +129,24 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
     }
 
 
+    //------------------
+
+    /***
+     * 始終維持元件寬高
+     * @param widthMeasureSpec
+     * @param heightMeasureSpec
+     */
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (initWidth == -1){
+            initWidth = getMeasuredWidth();
+        }
+        if (initHeight == -1){
+            initHeight = getMeasuredHeight();
+        }
+        setMeasuredDimension(initWidth, initHeight);
+    }
     //------------------
 
     /***
