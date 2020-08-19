@@ -242,6 +242,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
      */
     public void expand(boolean isAnimate) {
         if (isAnimate) {
+            currentHeight=getHeight();
             valueAnimator.setFloatValues(currentHeight, maxHeight);
             valueAnimator.start();
         } else {
@@ -257,6 +258,7 @@ public class ExpandableLayout extends LinearLayout implements ValueAnimator.Anim
      */
     public void collapse(boolean isAnimate) {
         if (isAnimate) {
+            currentHeight=getHeight();
             valueAnimator.setFloatValues(currentHeight, minHeight);
             valueAnimator.start();
         } else {
